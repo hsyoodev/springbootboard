@@ -1,1 +1,32 @@
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  level:
+    com.hsyoodev.springbootboard: debug
+    org:
+      springframework.web.servlet: debug
+      hibernate.orm.jdbc.bind: trace
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/board
+    username: hsyoodev
+    password: Rnrmf2023!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      mode: always
