@@ -1,10 +1,18 @@
 package com.hsyoodev.springbootboard.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/article")
+import java.util.List;
+
+@RequestMapping("/articles")
 @Controller
 public class ArticleController {
-
+    @GetMapping
+    public String articles(ModelMap modelMap) {
+        modelMap.addAttribute("articles", List.of());
+        return "articles/index";
+    }
 }
