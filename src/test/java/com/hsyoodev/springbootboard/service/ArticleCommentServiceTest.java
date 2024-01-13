@@ -2,8 +2,10 @@ package com.hsyoodev.springbootboard.service;
 
 import com.hsyoodev.springbootboard.domain.Article;
 import com.hsyoodev.springbootboard.domain.ArticleComment;
+import com.hsyoodev.springbootboard.domain.UserAccount;
 import com.hsyoodev.springbootboard.repository.ArticleCommentRepository;
 import com.hsyoodev.springbootboard.repository.ArticleRepository;
+import com.hsyoodev.springbootboard.repository.UserAccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,13 +29,16 @@ class ArticleCommentServiceTest {
     private ArticleRepository articleRepository;
     @Mock
     private ArticleCommentRepository articleCommentRepository;
+    @Mock
+    private UserAccountRepository userAccountRepository;
 
     @DisplayName("게시글 ID로 조회하면, 해당하는 댓글 리스트를 반환한다.")
     @Test
     void givenArticleId_whenSearchingArticleComments_thenReturnsArticleComments() {
         // given
         Long articleId = 1L;
-        Article article = Article.of("title", "content", "#java");
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("uno", "pw", null, null, null));
+        Article article = Article.of(userAccount, "title", "content", "#java");
         given(articleRepository.findById(articleId)).willReturn(Optional.of(article));
 
         // when
