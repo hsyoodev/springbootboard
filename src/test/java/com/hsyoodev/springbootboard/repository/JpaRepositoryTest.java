@@ -2,6 +2,7 @@ package com.hsyoodev.springbootboard.repository;
 
 import com.hsyoodev.springbootboard.config.JpaConfig;
 import com.hsyoodev.springbootboard.domain.Article;
+import com.hsyoodev.springbootboard.domain.UserAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JpaRepositoryTest {
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
+
 
     @Autowired
-    public JpaRepositoryTest(ArticleRepository articleRepository, ArticleCommentRepository articleCommentRepository) {
+    public JpaRepositoryTest(ArticleRepository articleRepository, ArticleCommentRepository articleCommentRepository, UserAccountRepository userAccountRepository) {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("select 테스트")
@@ -40,11 +44,13 @@ class JpaRepositoryTest {
     @DisplayName("insert 테스트")
     @Test
     void insert() {
-        // Given
+// Given
         long previousCount = articleRepository.count();
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("uno", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "#spring");
 
         // When
-        Article article = articleRepository.save(Article.of("new article", "new content", "#spring"));
+        articleRepository.save(article);
 
         // Then
         assertThat(articleRepository.count()).isEqualTo(previousCount + 1);
